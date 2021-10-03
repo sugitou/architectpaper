@@ -72,19 +72,19 @@ def main():
         t_title = title.text
         t_writer = writer.text
         t_source_title = source_title.text
-        # source_page_link = title.get_attribute("href")
-        # driver.get(source_page_link)
-        # detail = driver.find_element_by_class_name('search_detail')
-        # details = detail.text.split('\n')
-        # source_number = ''
-        # source_page = ''
-        # year = ''
-        # for row in details:
-        #     if row.startswith('巻：'):
-        #         source_npy = row.split('  ')
-        #         source_number = source_npy[0].split('： ')[1]
-        #         source_page = source_npy[1].split('： ')[1]
-        #         year = source_npy[2].split('： ')[1]
+        source_page_link = title.get_attribute("href")
+        driver.get(source_page_link)
+        detail = driver.find_element_by_class_name('search_detail')
+        details = detail.text.split('\n')
+        source_number = ''
+        source_page = ''
+        year = ''
+        for row in details:
+            if row.startswith('巻：'):
+                source_npy = row.split('  ')
+                source_number = source_npy[0].split('： ')[1]
+                source_page = source_npy[1].split('： ')[1]
+                year = source_npy[2].split('： ')[1]
         
         # 件数をカウント
         job_num += 1
@@ -92,19 +92,13 @@ def main():
         logfile(log_path, out_num)
 
         df = df.append(
-            {"論文が発行された媒体": t_source_title,
+            {"論文の発行年": year, 
+            "論文が発行された媒体": t_source_title,
+            "媒体の巻号": source_number,
             "論文タイトル": t_title,
-            "著者": t_writer}, 
+            "著者": t_writer,
+            "媒体のページ数": source_page}, 
             ignore_index=True)
-
-        # df = df.append(
-        #     {"論文の発行年": year, 
-        #     "論文が発行された媒体": t_source_title,
-        #     "媒体の巻号": source_number,
-        #     "論文タイトル": t_title,
-        #     "著者": t_writer,
-        #     "媒体のページ数": source_page}, 
-        #     ignore_index=True)
         
         driver.back()
 
