@@ -3,7 +3,7 @@ from common import desktop
 from main.aij_run import main
 
 
-app_name="web"
+app_name="aij_web"
 end_point="index.html"
 size=(650,750)
 

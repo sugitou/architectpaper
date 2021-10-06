@@ -94,4 +94,7 @@ class Aij():
         csv_path = f'{crdir("csv_aij")}/aij_{now}.csv'
         # csvファイルに取得データを出力
         df_csv = df.to_csv(csv_path)
-    
+
+# if __name__ == "__main__":
+#     a = Aij()
+#     a.main()    
