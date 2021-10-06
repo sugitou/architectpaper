@@ -6,5 +6,5 @@ def main():
     aij.main(search_category)
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
