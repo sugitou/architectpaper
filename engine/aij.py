@@ -5,28 +5,13 @@ import datetime
 import pandas as pd
 import pprint
 
+from common.option import *
+from common.driver import set_driver
 from pandas.core.frame import DataFrame
-from driver import set_driver
 
 
 # 現在時刻取得
 now = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-
-
-def crdir(fdname):
-    new_dir = f'{os.getcwd()}\\{fdname}'
-    # 指定ディレクトリ作成
-    if not os.path.exists(new_dir):
-        os.mkdir(new_dir)
-    return new_dir
-
-
-def logfile(log_path, log_text):
-    with open(log_path, 'a', encoding='utf-8_sig') as f:
-        # 件数ごとに出力時間を記載する
-        log_now = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-        log = f'[{log_now}] {log_text}'
-        f.write(log + '\n')
 
 class Aij():
     def __init__(self):
@@ -109,9 +94,4 @@ class Aij():
         csv_path = f'{crdir("csv_aij")}/aij_{now}.csv'
         # csvファイルに取得データを出力
         df_csv = df.to_csv(csv_path)
-
-# 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
-if __name__ == "__main__":
-    aij = Aij()
-    search_category = input("categoryIdを入力してください。 >>> ")
-    aij.main(search_category)
+    
