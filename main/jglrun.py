@@ -1,4 +1,4 @@
-from jglobal import Jglobal
+from engine.jglobal import Jglobal
 
 def main():
     jglobal = Jglobal()
