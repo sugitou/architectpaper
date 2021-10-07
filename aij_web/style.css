@@ -18,6 +18,10 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
+p {
+    margin: 0;
+}
+
 .title {
     margin: 0;
     font-weight: bold;
@@ -31,6 +35,14 @@ p.col-3 {
 .arg_text {
     text-align: center;
     font-weight: bold;
+}
+
+.arg_text_02 {
+    font-weight: bold;
+}
+
+.texts {
+    margin: 5px 0;
 }
 
 textarea.com_log_area{
