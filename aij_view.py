@@ -5,11 +5,11 @@ from main.aij_run import main
 
 app_name="aij_web"
 end_point="index.html"
-size=(650,600)
+size=(650,700)
 
 @ eel.expose
-def rakuten_system(kw_search, csv_name, box_name, select_api):
-    output_data = main()
+def aij_system(id_search, csv_name, box_name):
+    output_data = main(id_search, csv_name, box_name)
     return output_data
 
 

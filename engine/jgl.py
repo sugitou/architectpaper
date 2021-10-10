@@ -15,7 +15,7 @@ from common.driver import set_driver
 # 現在時刻取得
 now = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
-class Jglobal:
+class Jgl:
     def __init__(self):
         # driverを起動
         self.driver = set_driver("chromedriver.exe", False)
@@ -23,17 +23,19 @@ class Jglobal:
         self.driver.implicitly_wait(10)
         
     
-    def get_items(self):
+    def get_items(self, url):
+        # Webサイトを開く
+        self.driver.get(url)
+        time.sleep(5)
+
         # ログファイル作成
         log_path = f'{crdir("log")}/log_{now}.log'
         # 件数カウンター作成
         link_num = 0
-        # リンク一覧
-        elem_urls = []
+        # 空のDataFrame作成
+        df = pd.DataFrame()
         # ページ数カウント
-        i = 0
-        # DataFrameに入れるリスト
-        dict_array = []
+        i = 2
 
         while True:
             try:
@@ -44,23 +46,30 @@ class Jglobal:
                 # ページがなくなったら止める
                 if len(titles) == 0:
                     print('これ以上ページがありません。')
-                    print('次に論文詳細ページをスクレイピングします。')
+                    print('スクレイピングを終了します。')
+                    end_alert = 'スクレイピングが完了しました。\n'
                     break
 
                 for title, writer, source_title in zip(titles, source_even, source_odd):
-                    elem_urls.append(title.get_attribute("href"))
+                    re_wirter = writer.text.replace('著者： ', '')
+                    ws = source_title.text.split(' ')
+                    re_source_title = ws[1]
+                    year = ws[2]
+
                     # 件数をカウント
                     link_num += 1
                     out_num = f'{link_num}件目'
                     logfile(log_path, out_num)
 
-                    dict_array.append(
-                        {"論文の発行年": '', 
-                        "論文が発行された媒体": source_title.text,
+                    # DataFrameに対して辞書形式でデータを追加する
+                    df = df.append(
+                        {"論文の発行年": year, 
+                        "論文が発行された媒体": re_source_title,
                         "媒体の巻号": '',
                         "論文タイトル": title.text,
-                        "著者": writer.text,
-                        "媒体のページ数": ''})
+                        "著者": re_wirter,
+                        "媒体のページ数": ''},
+                        ignore_index=True)
                 
                 page_param = {
                     "category" : 2,
@@ -69,20 +78,22 @@ class Jglobal:
                 }
                 next = requests.get("https://jglobal.jst.go.jp/search/articles#" + json.dumps(page_param))
                 self.driver.get(next.url)
+
+                i += 1
+                # 削除予定
+                # 1ページで終了
+                # if i == 4:
+                #     print('強制終了')
+                #     end_alert = 'スクレイピングが完了しました。\n'
+                #     break
                 
             except Exception as e:
                 er = f'{link_num}件目でエラーが発生しました。'
                 logfile(log_path, er)
                 print(e)
                 continue
-            
-            i += 1
-            # 削除予定
-            # 5ページで終了
-            if i == 5:
-                break
         
-        return elem_urls, dict_array
+        return df, end_alert
 
 
     def get_another_items(self, elem_urls, dict_array):
@@ -105,26 +116,3 @@ class Jglobal:
             dict_array[n]["媒体のページ数"] = source_page
         
         return dict_array
-
-
-    def item_to_csv(self):
-        # Webサイトを開く
-        self.driver.get("https://jglobal.jst.go.jp/search/articles#%7B%22category%22%3A%222%22%2C%22keyword%22%3A%22%5C%22X0722A%5C%22%22%2C%22page%22%3A1%7D")
-        time.sleep(5)
-        try:
-            # ポップアップを閉じる
-            self.driver.execute_script('document.querySelector(".karte-close").click()')
-            time.sleep(5)
-            # ポップアップを閉じる
-            self.driver.execute_script('document.querySelector(".karte-close").click()')
-        except:
-            pass
-
-        elem_urls, dict_array = self.get_items()
-        conc_dict = self.get_another_items(elem_urls, dict_array)
-
-        df = pd.DataFrame(conc_dict)
-
-        csv_path = f'{crdir("csv_jgl")}/jgl_{now}.csv'
-        # csvファイルに取得データを出力
-        df.to_csv(csv_path)

@@ -16,27 +16,31 @@
             <h2 class="title pt-3 pb-3 pl-3">日本建築学会</h2>
         </div>
         <div class="main_wrapper border pt-2 pb-2 ml-4 mr-4 col-11">
-            <div class="market_area" id="wrap01">
+            <div id="wrap01">
                 <div class="top">
-                    <form name="input_form_01" class="mt-3 mb-3 col-12">
+                    <form name="input_form" class="mt-3 mb-3 col-12">
                         <div class="d-flex align-items-center">
                             <p class="arg_text col-3">categoryId</p>
-                            <input class="form-control col-9" id="kw_search_01" type="text" placeholder="categoryIdを入力してください。" name='input_kw' />
+                            <input class="form-control col-9" id="id_search" type="text" placeholder="categoryIdを入力してください。" name='input_id' />
                         </div>
                         <div class="d-flex align-items-center mt-3">
                             <p class="arg_text col-3">ファイル名</p>
-                            <input class="form-control col-9" id="csv_name_01" type="text" placeholder="ファイル名を入力してください。" name='input_f' />
+                            <input class="form-control col-9" id="csv_name" type="text" placeholder="ファイル名を入力してください。" name='input_f' />
                         </div>
                         <div class="d-flex align-items-center mt-3">
                             <p class="arg_text col-3">フォルダ名</p>
-                            <input class="form-control col-9" id="box_name_01" type="text" placeholder="フォルダ名を入力してください。" name='input_d' />
+                            <input class="form-control col-9" id="box_name" type="text" placeholder="フォルダ名を入力してください。" name='input_d' />
                         </div>
                     </form>
                 </div>
                 <div class = "middle d-flex justify-content-center col-12">
-                    <input class="btn btn-info" type="button" value="検索" id="market_search" />
+                    <input class="btn btn-info" type="button" value="検索" id="search" />
                 </div>
-                <div class="bottom mt-3 col-12">
+                <div class="bottom d-flex align-items-start mt-3 col-12">
+                    <p class="arg_text col-3">検索結果表示</p>
+                    <textarea class="log_area form-control col-9" id="result" ></textarea>
+                </div>
+                <div class="bottom_02 mt-3 col-12">
                     <p class="arg_text_02 col-3">注意</p>
                     <div class="texts">
                         <p>・categoryIdには3桁の半角数字を入力してください。</p>

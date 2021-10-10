@@ -3,13 +3,13 @@ from common import desktop
 from main.jgl_run import main
 
 
-app_name="web"
+app_name="jgl_web"
 end_point="index.html"
-size=(650,750)
+size=(650,700)
 
 @ eel.expose
-def rakuten_system(kw_search, csv_name, box_name, select_api):
-    output_data = main()
+def jgl_system(csv_name, box_name):
+    output_data = main(csv_name, box_name)
     return output_data
 
 

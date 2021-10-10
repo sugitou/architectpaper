@@ -13,9 +13,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header_wrapper {
-    color: #fff;
-    background-color: #76c7c0;
+    color: #2064b1;
+    background-color: #f2f2f2;
     font-weight: bold;
+}
+
+p {
+    margin: 0;
 }
 
 .title {
@@ -33,6 +37,14 @@ p.col-3 {
     font-weight: bold;
 }
 
-textarea.com_log_area{
-    height: 300px;
+.arg_text_02 {
+    font-weight: bold;
+}
+
+.texts {
+    margin: 5px 0;
+}
+
+textarea.log_area{
+    height: 150px;
 }
