@@ -92,6 +92,9 @@ class Jgl:
                 logfile(log_path, er)
                 print(e)
                 continue
+
+
+        self.driver.close()
         
         return df, end_alert
 
