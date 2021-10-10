@@ -19,20 +19,28 @@ class Aij():
         self.driver = set_driver("chromedriver.exe", False)
 
 
-    def get_items(self):
+    def get_items(self, url: str):
+        # Webサイトを開く
+        self.driver.get(url)
+
         # ログファイル作成
         log_path = f'{crdir("log")}/log_{now}.log'
         # 空のDataFrame作成
         df = pd.DataFrame()
         # 件数カウンター作成
         job_num = 0
+        # i = 0
+        # 終了通知
+        end_alert = ''
 
         while True:
             try:
+                # if i == 1:
+                #     print("強制終了")
+                #     break
                 # テーブルの数
                 table_num = self.driver.find_elements_by_css_selector('tbody > tr')
-                # print('テーブル数:', len(table_num))
-                # print('中身:', table_num[0].text.split('\n'))
+                
                 for tr in table_num:
                     tbs = tr.text.split('\n')
                     title = tbs[1]
@@ -40,6 +48,8 @@ class Aij():
                     source_number = tbs[3].replace('巻　号：', '')
                     source_page = tbs[4].replace('ページ：', '')
                     year = tbs[5].replace('年月次：', '')
+                    if "-" in year:
+                        year = year.split("-")[0]
                     source_title = tbs[6].split('[ ')[3].replace(' ] ', '')
 
                     # 件数をカウント
@@ -62,9 +72,11 @@ class Aij():
                 if len(next_page) > 0:
                     page_link = next_page[0].get_attribute("href")
                     self.driver.get(page_link)
+                    # i += 1
                 else:
                     print('これ以上ページがありません。')
                     print('スクレイピングを終了します。')
+                    end_alert = 'スクレイピングが完了しました。\n'
                     break
             except Exception as e:
                 er = f'{job_num}件目でエラーが発生しました。'
@@ -72,29 +84,4 @@ class Aij():
                 print(e)
                 continue
 
-        return df
-
-
-    def main(self, categoryId='', csv_name=''):
-        # Webサイトを開く
-        self.driver.get("https://www.aij.or.jp/paper/search.html?categoryId=" + categoryId)
-        time.sleep(5)
-        try:
-            # ポップアップを閉じる
-            self.driver.execute_script('document.querySelector(".karte-close").click()')
-            time.sleep(5)
-            # ポップアップを閉じる
-            self.driver.execute_script('document.querySelector(".karte-close").click()')
-        except:
-            pass
-
-        # DataFrameに格納
-        df = self.get_items()
-        
-        csv_path = f'{crdir("csv_aij")}/aij_{now}.csv'
-        # csvファイルに取得データを出力
-        df_csv = df.to_csv(csv_path)
-
-# if __name__ == "__main__":
-#     a = Aij()
-#     a.main()    
+        return df, end_alert
