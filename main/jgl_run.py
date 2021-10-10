@@ -8,8 +8,6 @@ from engine.jgl import Jgl
 
 def main(fnm, fld):
     jglobal = Jgl()
-    # fld = 'csv_jgl'
-    # fnm = 'result'
     url = "https://jglobal.jst.go.jp/search/articles#%7B%22category%22%3A%222%22%2C%22keyword%22%3A%22%5C%22X0722A%5C%22%22%2C%22page%22%3A1%7D"
     # DataFrameに格納
     df, end = jglobal.get_items(url)

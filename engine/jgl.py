@@ -42,11 +42,9 @@ class Jgl:
                 titles = self.driver.find_elements_by_class_name('listbox_title_a')    # タイトル
                 source = self.driver.find_elements_by_css_selector("div.listbox_info1 > div")
                 source_even = source[0::2]    # 著者
-                source_odd = source[1::2]    # 発行媒体
+                source_odd = source[1::2]    # 発行媒体, 発行年
                 # ページがなくなったら止める
                 if len(titles) == 0:
-                    print('これ以上ページがありません。')
-                    print('スクレイピングを終了します。')
                     end_alert = 'スクレイピングが完了しました。\n'
                     break
 
@@ -80,12 +78,6 @@ class Jgl:
                 self.driver.get(next.url)
 
                 i += 1
-                # 削除予定
-                # 1ページで終了
-                # if i == 4:
-                #     print('強制終了')
-                #     end_alert = 'スクレイピングが完了しました。\n'
-                #     break
                 
             except Exception as e:
                 er = f'{link_num}件目でエラーが発生しました。'
@@ -97,25 +89,3 @@ class Jgl:
         self.driver.close()
         
         return df, end_alert
-
-
-    def get_another_items(self, elem_urls, dict_array):
-        for n, source_page_link in enumerate(elem_urls):
-            self.driver.get(source_page_link)
-            detail = self.driver.find_element_by_class_name('search_detail')
-            details = detail.text.split('\n')
-            source_number = ''
-            source_page = ''
-            year = ''
-            for row in details:
-                if row.startswith('巻：'):
-                    source_npy = row.split('  ')
-                    source_number = source_npy[0].split('： ')[1]
-                    source_page = source_npy[1].split('： ')[1]
-                    year = source_npy[2].split('： ')[1]
-            
-            dict_array[n]["論文の発行年"] = year
-            dict_array[n]["媒体の巻号"] = source_number
-            dict_array[n]["媒体のページ数"] = source_page
-        
-        return dict_array

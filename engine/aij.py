@@ -29,15 +29,11 @@ class Aij():
         df = pd.DataFrame()
         # 件数カウンター作成
         job_num = 0
-        # i = 0
         # 終了通知
         end_alert = ''
 
         while True:
             try:
-                # if i == 1:
-                #     print("強制終了")
-                #     break
                 # テーブルの数
                 table_num = self.driver.find_elements_by_css_selector('tbody > tr')
                 
@@ -72,10 +68,7 @@ class Aij():
                 if len(next_page) > 0:
                     page_link = next_page[0].get_attribute("href")
                     self.driver.get(page_link)
-                    # i += 1
                 else:
-                    print('これ以上ページがありません。')
-                    print('スクレイピングを終了します。')
                     end_alert = 'スクレイピングが完了しました。\n'
                     break
             except Exception as e:
