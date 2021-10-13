@@ -1,6 +1,4 @@
 from logging import debug, error, log
-import os
-import time
 import datetime
 import pandas as pd
 import pprint
@@ -24,19 +22,23 @@ class Aij():
         self.driver.get(url)
 
         # ログファイル作成
-        log_path = f'{crdir("log")}/log_{now}.log'
+        # log_path = f'{crdir("log")}/log_{now}.log'
         # 空のDataFrame作成
         df = pd.DataFrame()
         # 件数カウンター作成
         job_num = 0
         # 終了通知
         end_alert = ''
+        # i = 0
 
         while True:
             try:
                 # テーブルの数
                 table_num = self.driver.find_elements_by_css_selector('tbody > tr')
-                
+                # if i == 1:
+                #     print('強制終了')
+                #     break
+
                 for tr in table_num:
                     tbs = tr.text.split('\n')
                     title = tbs[1]
@@ -46,12 +48,16 @@ class Aij():
                     year = tbs[5].replace('年月次：', '')
                     if "-" in year:
                         year = year.split("-")[0]
-                    source_title = tbs[6].split('[ ')[3].replace(' ] ', '')
+                    papers = tbs[6].split('[ ')
+                    if len(papers) <= 1:
+                        source_title = ''
+                    else:
+                        source_title = papers[-2].replace(' ] ', '')
 
                     # 件数をカウント
-                    job_num += 1
-                    out_num = f'{job_num}件目'
-                    logfile(log_path, out_num)
+                    # job_num += 1
+                    # out_num = f'{job_num}件目'
+                    # logfile(log_path, out_num)
 
                     # DataFrameに対して辞書形式でデータを追加する
                     df = df.append(
@@ -68,13 +74,16 @@ class Aij():
                 if len(next_page) > 0:
                     page_link = next_page[0].get_attribute("href")
                     self.driver.get(page_link)
+                    # i += 1
                 else:
                     end_alert = 'スクレイピングが完了しました。\n'
                     break
             except Exception as e:
-                er = f'{job_num}件目でエラーが発生しました。'
-                logfile(log_path, er)
+                # er = f'{job_num}件目でエラーが発生しました。'
+                # logfile(log_path, er)
                 print(e)
                 continue
+        
+        self.driver.close()
 
         return df, end_alert

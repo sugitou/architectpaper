@@ -5,7 +5,7 @@ from main.aij_run import main
 
 app_name="aij_web"
 end_point="index.html"
-size=(650,700)
+size=(750,700)
 
 @ eel.expose
 def aij_system(id_search, csv_name, box_name):

@@ -5,7 +5,7 @@ from main.jgl_run import main
 
 app_name="jgl_web"
 end_point="index.html"
-size=(650,700)
+size=(750,700)
 
 @ eel.expose
 def jgl_system(csv_name, box_name):

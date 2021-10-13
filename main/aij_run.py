@@ -24,3 +24,9 @@ def main(search_category, fnm, fld):
     df_csv = df.to_csv(csv_path)
 
     return end
+
+# if __name__ == "__main__":
+#     search_category = '251'
+#     fnm = 'result'
+#     fld = 'csv_aij'
+#     main(search_category, fnm, fld)
