@@ -28,7 +28,7 @@ class Jgl:
         time.sleep(5)
 
         # ログファイル作成
-        # log_path = f'{crdir("log")}/log_{now}.log'
+        log_path = f'{crdir("log")}/log_{now}.log'
         # 件数カウンター作成
         link_num = 0
         # 空のDataFrame作成
@@ -56,9 +56,9 @@ class Jgl:
                     year = ws[2]
 
                     # 件数をカウント
-                    # link_num += 1
-                    # out_num = f'{link_num}件目'
-                    # logfile(log_path, out_num)
+                    link_num += 1
+                    out_num = f'{link_num}件目'
+                    logfile(log_path, out_num)
 
                     # DataFrameに対して辞書形式でデータを追加する
                     df = df.append(
@@ -84,8 +84,8 @@ class Jgl:
                 #     break
                 
             except Exception as e:
-                # er = f'{link_num}件目でエラーが発生しました。'
-                # logfile(log_path, er)
+                er = f'{link_num}件目でエラーが発生しました。'
+                logfile(log_path, er)
                 print(e)
                 continue
 

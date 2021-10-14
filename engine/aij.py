@@ -22,7 +22,7 @@ class Aij():
         self.driver.get(url)
 
         # ログファイル作成
-        # log_path = f'{crdir("log")}/log_{now}.log'
+        log_path = f'{crdir("log")}/log_{now}.log'
         # 空のDataFrame作成
         df = pd.DataFrame()
         # 件数カウンター作成
@@ -55,9 +55,9 @@ class Aij():
                         source_title = papers[-2].replace(' ] ', '')
 
                     # 件数をカウント
-                    # job_num += 1
-                    # out_num = f'{job_num}件目'
-                    # logfile(log_path, out_num)
+                    job_num += 1
+                    out_num = f'{job_num}件目'
+                    logfile(log_path, out_num)
 
                     # DataFrameに対して辞書形式でデータを追加する
                     df = df.append(
@@ -79,8 +79,8 @@ class Aij():
                     end_alert = 'スクレイピングが完了しました。\n'
                     break
             except Exception as e:
-                # er = f'{job_num}件目でエラーが発生しました。'
-                # logfile(log_path, er)
+                er = f'{job_num}件目でエラーが発生しました。'
+                logfile(log_path, er)
                 print(e)
                 continue
         
