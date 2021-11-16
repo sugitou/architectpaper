@@ -13,8 +13,6 @@ def main(search_category, fnm, fld):
         categoryId = str(category_num)
     except ValueError:
         return '数字を入力してください。\n'
-    if len(categoryId) != 3:
-        return '3桁で入力してください。\n'
     
     url = "https://www.aij.or.jp/paper/search.html?categoryId=" + categoryId
     # DataFrameに格納
